@@ -289,18 +289,24 @@ public class Juego extends InterfaceJuego {
     private void verificarTeclas() {
         // Movimiento a la derecha
         if (entorno.estaPresionada(entorno.TECLA_DERECHA) || entorno.estaPresionada('d')) {
+        	
             pep.movHorizontal(3); // Mover a la derecha
         }
+        
 
         // Movimiento a la izquierda
         if (entorno.estaPresionada(entorno.TECLA_IZQUIERDA) || entorno.estaPresionada('a')) {
-            pep.movHorizontal(-3); // Mover a la izquierda
+        	
+        	pep.movHorizontal(-3); // Mover a la izquierda
         }
+        
 
         // Salto
         if (entorno.sePresiono(entorno.TECLA_ARRIBA) || entorno.sePresiono('w')) {
+       	if(pep.estaApoyado) {
             pep.saltar(); // Realizar salto
-        }
+        	}
+      }
 
         // Verificar si se presionó el botón izquierdo del mouse o 'c' para lanzar un poder
         if ((entorno.sePresionoBoton(entorno.BOTON_IZQUIERDO) || entorno.sePresiono('c')) &&
@@ -342,19 +348,20 @@ public class Juego extends InterfaceJuego {
 
     // Método que verifica si el personaje está pisando una isla específica
     private boolean pisandoIsla(Personaje p, Isla isla) {
-        return (Math.abs(p.getBordeInf() - isla.getBordeSup()) < 16) // Verifica la colisión vertical
-                && (p.getBordeIzq() < isla.getBordeDer() - 25) // Verifica el borde izquierdo
-                && (p.getBordeDer() > isla.getBordeIzq() + 30); // Verifica el borde derecho
+        return (Math.abs(p.getBordeInf() - isla.getBordeSup()) < 5) // Verifica la colisión vertical
+                && (p.getBordeIzq() < isla.getBordeDer() - 5) // Verifica el borde izquierdo
+                && (p.getBordeDer() > isla.getBordeIzq() + 5); // Verifica el borde derecho
     }
 
     // Método para verificar si el personaje toca el techo de alguna isla
     private boolean tocaTecho(Personaje p, Isla[] islas) {
         for (Isla i : islas) {
             // Verifica si el personaje está dentro del rango horizontal de la isla
-            if (p.getBordeIzq() < i.getBordeDer() - 25 && p.getBordeDer() > i.getBordeIzq() + 30) {
+            if (p.getBordeIzq() < i.getBordeDer() - 5 && p.getBordeDer() > i.getBordeIzq() + 5) {
                 // Verifica si el personaje está debajo del borde superior de la isla y encima del borde inferior
-                if (p.getBordeSup() <= i.getBordeInf() && p.getBordeInf() >= i.getBordeSup() - 2) {
+             if (p.getBordeSup() <= i.getBordeInf()&& p.getBordeInf() >= i.getBordeSup() +2 ) {
                     return true; // Retorna verdadero si toca el techo
+           
                 }
             }
         }
